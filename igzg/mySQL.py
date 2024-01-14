@@ -1,6 +1,5 @@
-__version__ = '0.0.1'
+__version__ = '0.0.2'
 
-#test
 def getInsertQuery(tableName:str, dataDict:dict, duplicateUpdate:bool=False, updateItems:list=[])->str:
     '''
     dataDict    = {'col1':'data1','col2':'data2'}
@@ -30,6 +29,11 @@ def getSelectQuery(tableName:str,  items:list=[], where:list=[], sort:dict={}, d
 
     query = rf"""SELECT {distinctStr} {itemStr} FROM `{tableName}` {whereStr} {sortStr};"""
 
+    return query
+
+
+def getTruncateQuery(tableName:str)->str:
+    query = f"TRUNCATE TABLE {tableName};"
     return query
 
 
