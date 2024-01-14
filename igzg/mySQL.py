@@ -1,4 +1,4 @@
-__version__ = '0.0.2'
+__version__ = '0.0.3'
 
 def getInsertQuery(tableName:str, dataDict:dict, duplicateUpdate:bool=False, updateItems:list=[])->str:
     '''
@@ -18,13 +18,13 @@ def getInsertQuery(tableName:str, dataDict:dict, duplicateUpdate:bool=False, upd
 def getSelectQuery(tableName:str,  items:list=[], where:list=[], sort:dict={}, distinct:bool=False)->str:
     '''
     items = ['col1', 'col2']
-    where = ["col1 = 'apple'", "col2 < 13"]
+    where = ["`col1` = 'apple'", "`col2` < 13"]
     sort  = {"col1":"ASC", "col1":"DESC"} # value - ASC/DESC
     '''
     query = ''
     itemStr = ','.join(['`'+str(x)+'`' for x in items]) if items != [] else '*'
-    whereStr = "WHERE " + 'AND'.join(['('+str(x)+')' for x in where]) if where != [] else ''
-    sortStr = "ORDER BY " + ','.join(["`"+str(x)+"` "+str(sort[x]).upper()+"" for x in sort.keys()]) if sort != [] else ''
+    whereStr = ("WHERE " + 'AND'.join(['('+str(x)+')' for x in where])) if where != [] else ''
+    sortStr = ("ORDER BY " + ','.join(["`"+str(x)+"` "+str(sort[x]).upper()+"" for x in sort.keys()])) if sort != {} else ''
     distinctStr = "DISTINCT" if distinct else ''
 
     query = rf"""SELECT {distinctStr} {itemStr} FROM `{tableName}` {whereStr} {sortStr};"""
