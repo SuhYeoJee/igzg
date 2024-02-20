@@ -1,4 +1,4 @@
-__version__ = '0.0.3'
+__version__ = '0.0.4'
 
 def getInsertQuery(tableName:str, dataDict:dict, duplicateUpdate:bool=False, updateItems:list=[])->str:
     '''
@@ -37,5 +37,18 @@ def getTruncateQuery(tableName:str)->str:
     return query
 
 
+def getDeleteQuery(tableName:str, where:list=[])->str:
+    '''
+    where = ["`col1` = 'apple'", "`col2` < 13"]
+    '''
+
+    query = ''
+    whereStr = ("WHERE " + 'AND'.join(['('+str(x)+')' for x in where])) if where != [] else ''
+
+    query = rf"""DELETE FROM `{tableName}` {whereStr};"""
+
+    return query
+
+
 if __name__ == "__main__":
-    print(getSelectQuery('powder',where=["seq = 1", "name_ko = '코발트'"],sort={"seq":"ASC"},distinct=True))
+    print(getDeleteQuery('powder',where=["seq = 1", "name_ko = '코발트'"]))
