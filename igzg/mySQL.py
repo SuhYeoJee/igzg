@@ -1,4 +1,4 @@
-__version__ = '0.0.4'
+__version__ = '0.0.5'
 
 def getInsertQuery(tableName:str, dataDict:dict, duplicateUpdate:bool=False, updateItems:list=[])->str:
     '''
@@ -49,6 +49,18 @@ def getDeleteQuery(tableName:str, where:list=[])->str:
 
     return query
 
+def getUpdateQuery(tableName:str, dataDict:dict, where:list=[])->str:
+    '''
+    where = ["`col1` = 'apple'", "`col2` < 13"]
+    dataDict    = {'col1':'data1','col2':'data2'}
+    '''
+    query = ''
+    whereStr = ("WHERE " + 'AND'.join(['('+str(x)+')' for x in where])) if where != [] else ''
+    setStr = "SET" + ','.join([f"`{x}` = '{dataDict[x]}'" for x in dataDict])
+
+    query = rf"""UPDATE `{tableName}` {setStr} {whereStr};"""
+
+    return query
 
 if __name__ == "__main__":
     print(getDeleteQuery('powder',where=["seq = 1", "name_ko = '코발트'"]))
