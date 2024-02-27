@@ -1,4 +1,4 @@
-__version__ = '0.0.0'
+__version__ = '0.0.1'
 
 def getConfig(configList:list, section:str="DEFAULT", configFilePath:str='config.txt'):
     import configparser
@@ -25,7 +25,7 @@ def getConfig(configList:list, section:str="DEFAULT", configFilePath:str='config
 
 def getNowStr(format:str = "%Y-%m-%d %H:%M:%S"):
     from datetime import datetime
-    nowStr = datetime.now().strftime(format)
+    nowStr = datetime.now().strftime(format.encode('unicode-escape').decode()).encode().decode('unicode-escape')
 
     return nowStr
 
